@@ -1,4 +1,4 @@
-fn adder(a: u32, b: u32) -> u32
+pub fn adder(a: u32, b: u32) -> u32
 {
     let mut a: u32 = a;
     let mut b: u32 = b;
@@ -15,9 +15,22 @@ fn adder(a: u32, b: u32) -> u32
 
 fn main() {
     println!("######### ADDER #########");
-    println!("{}", adder(91, 5));
-    println!("{}", adder(4_294_967_294, 1));
-    println!("{}", adder(4_294_967_295, 1));
+    let mut a: u32 = 91;
+    let mut b: u32 = 5;
+    assert_eq!(adder(a, b), a + b, "the operation: {} + {} = {} is not equal.",a,b, a + b);
+    println!("{} || {}", adder(a, b), a + b);
+
+    /**/
+    a = 4_294_967_294;
+    b = 1;
+    assert_eq!(adder(a, b), a + b, "the operation: {} + {} = {} is not equal.",a,b, a + b);
+    println!("{} || {}", adder(a, b), a + b);
+
+    /**/
+    a = 4_000_000_000;
+    b = 294_967_295;
+    assert_eq!(adder(a, b), a + b, "the operation: {} + {} = {} is not equal.",a,b, a + b);
+    println!("{} || {}", adder(a, b), a + b);
     println!("######### ADDER #########");
     println!("");
 }
