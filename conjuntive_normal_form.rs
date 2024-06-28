@@ -168,20 +168,95 @@ fn negation_normal_form(formula: &str) -> String {
     s
 }
 
+fn is_operator(c: char) -> bool {
+    c == '&' || c == '|'
+}
+
+fn move_and_back(s: &str) -> String {
+    let mut r = String::new();
+
+    for (i, c) in s.chars().enumerate() {
+        r.push(c);
+        if !is_operator(c) {
+            continue;
+        }
+
+        let ps = get_params(r.as_str(), r.len() - 1);
+        let le = ps.left.as_ref().unwrap();
+        let ri = ps.right.as_ref().unwrap();
+
+        if ps.value.ends_with('&') && le.value.ends_with('&') {
+            let _a = le.left.as_ref().unwrap().value.clone();
+            let _b = le.right.as_ref().unwrap().value.clone();
+            let c = ri.value.clone();
+
+            r = r[0..r.len() - c.len() - 2].to_string();
+            r += &(c + "&&");
+        } else if ps.value.ends_with('|') && ri.value.ends_with('&') {
+            let a = le.value.clone();
+            let b = ri.left.as_ref().unwrap().value.clone();
+            let c = ri.right.as_ref().unwrap().value.clone();
+
+            r = r[0..r.len() - c.len() - 2].to_string();
+            r += &("|".to_owned() + &a + &c + "|" + &b + "&");
+        } else if ps.value.ends_with('|') && le.value.ends_with('&') {
+            let a = le.value.clone();
+            let b = ri.left.as_ref().unwrap().value.clone();
+            let c = ri.right.as_ref().unwrap().value.clone();
+
+            r = r[0..r.len() - a.len() - b.len() - c.len() - 2].to_string();
+            r += &(a.clone() + &b + "|" + &a + &c + "|" + &b + "&");
+        }
+    }
+
+    r
+}
+
+fn is_valid_cnf(s: &str) -> bool {
+    let mut and_zone = true;
+
+    for c in s.chars().rev() {
+        if c == '&' && !and_zone {
+            return false;
+        }
+        if c == '&' {
+            continue;
+        }
+        if c != '&' {
+            and_zone = false;
+        }
+    }
+
+    true
+}
+
+fn conjunctive_normal_form(formula: &str) -> String {
+    let mut r = negation_normal_form(formula);
+
+    while !is_valid_cnf(&r) {
+        r = move_and_back(&r);
+    }
+
+    r
+}
+
 fn main() {
     let formulas = vec![
         "AB&!",
         "AB|!",
-        "AB>",
-        "AB=",
-        "AB|C&!",
+        "AB|C&",
+        "AB|C|D|",
+        "AB&C&D&",
+        "AB&!C!|",
+        "AB|!C!&",
     ];
 
-    println!("######### NEGATION NORMAL FORM #########");
+    println!("######### CONJUNCTIVE NORMAL FORM #########");
     for formula in formulas {
-        println!("{} -> {}", formula, negation_normal_form(formula));
+        println!("{} -> {}", formula, conjunctive_normal_form(formula));
     }
-    println!("######### NEGATION NORMAL FORM #########");
+    println!("######### CONJUNCTIVE NORMAL FORM #########");
     println!("");
 }
+
 

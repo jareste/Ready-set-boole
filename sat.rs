@@ -28,6 +28,4 @@ fn main() {
     println!("{} || false", sat("AA^"));
     println!("######### SAT #########");
     println!("");
-    
-
 }
