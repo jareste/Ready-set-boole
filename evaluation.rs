@@ -74,16 +74,3 @@ pub fn eval_formula(formula: &str) -> bool {
     }
     stack.pop().unwrap()
 }
-
-fn main()
-{
-    println!("######### BOOLEVAL #########");
-    println!("{} || true", eval_formula("1"));
-    println!("{} || false", eval_formula("0"));
-    println!("{} || false", eval_formula("1!0&"));
-    println!("{} || true", eval_formula("11&"));
-    println!("{} || false", eval_formula("111&^"));
-    println!("{} || true", eval_formula("10|"));
-    println!("######### BOOLEVAL #########");
-    println!("");
-}

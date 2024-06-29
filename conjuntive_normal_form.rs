@@ -230,7 +230,7 @@ fn is_valid_cnf(s: &str) -> bool {
     true
 }
 
-fn conjunctive_normal_form(formula: &str) -> String {
+pub fn conjunctive_normal_form(formula: &str) -> String {
     let mut r = negation_normal_form(formula);
 
     while !is_valid_cnf(&r) {
@@ -239,24 +239,3 @@ fn conjunctive_normal_form(formula: &str) -> String {
 
     r
 }
-
-fn main() {
-    let formulas = vec![
-        "AB&!",
-        "AB|!",
-        "AB|C&",
-        "AB|C|D|",
-        "AB&C&D&",
-        "AB&!C!|",
-        "AB|!C!&",
-    ];
-
-    println!("######### CONJUNCTIVE NORMAL FORM #########");
-    for formula in formulas {
-        println!("{} -> {}", formula, conjunctive_normal_form(formula));
-    }
-    println!("######### CONJUNCTIVE NORMAL FORM #########");
-    println!("");
-}
-
-

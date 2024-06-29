@@ -153,7 +153,7 @@ fn is_valid(s: &str) -> bool {
     !s.contains("!!") && !s.contains("&!") && !s.contains("|!") && !s.contains("=") && !s.contains("^") && !s.contains(">")
 }
 
-fn negation_normal_form(formula: &str) -> String {
+pub fn negation_normal_form(formula: &str) -> String {
     let mut s = formula.to_string();
     loop {
         s = rm_xor(&s);
@@ -167,21 +167,3 @@ fn negation_normal_form(formula: &str) -> String {
     }
     s
 }
-
-fn main() {
-    let formulas = vec![
-        "AB&!",
-        "AB|!",
-        "AB>",
-        "AB=",
-        "AB|C&!",
-    ];
-
-    println!("######### NEGATION NORMAL FORM #########");
-    for formula in formulas {
-        println!("{} -> {}", formula, negation_normal_form(formula));
-    }
-    println!("######### NEGATION NORMAL FORM #########");
-    println!("");
-}
-

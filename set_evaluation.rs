@@ -1,4 +1,4 @@
-fn eval_set(formula: &str, sets: Vec<Vec<i32>>) -> Vec<i32>
+pub fn eval_set(formula: &str, sets: Vec<Vec<i32>>) -> Vec<i32>
 {
     let mut stack = Vec::new();
     for c in formula.chars()
@@ -29,22 +29,4 @@ fn eval_set(formula: &str, sets: Vec<Vec<i32>>) -> Vec<i32>
         }
     }
     stack.pop().unwrap()
-}
-
-fn main()
-{
-    let sets = vec![vec![0, 1, 2], vec![0, 3, 4]];
-    let result = eval_set("AB&", sets.clone());
-    println!("######### SET EVALUATION #########");
-    println!("{:?}", result);
-
-    let result = eval_set("AB|", sets);
-    println!("{:?}", result);
-
-    let sets = vec![vec![0, 1, 2]];
-    let result = eval_set("A!", sets.clone());
-    println!("{:?}", result);
-
-    println!("######### SET EVALUATION #########");
-    println!("");
 }
